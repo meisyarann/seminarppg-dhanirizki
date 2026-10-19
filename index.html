@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOMPUTASI.ID - 4 Pilar Berpikir Komputasional Kelas X</title>
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <script>
+    // Deteksi otomatis: jika file dibuka via file:// dan server lokal (localhost:8000) aktif, alihkan otomatis ke localhost
+    if (window.location.protocol === 'file:') {
+      fetch('http://localhost:8000/index.html', { method: 'HEAD', mode: 'no-cors' })
+        .then(function() {
+          window.location.href = 'http://localhost:8000/index.html' + window.location.hash;
+        })
+        .catch(function() {});
+    }
+  </script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontSize: {
+            sm: ['1rem', { lineHeight: '1.65' }],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Three.js 3D WebGL Engine (Lokal & Offline) -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200 antialiased">
+
+  <!-- ============================================== -->
+  <!-- 1. TOP NAVBAR                                   -->
+  <!-- ============================================== -->
+  <header class="sticky top-0 z-40 w-full glass-panel border-b border-slate-200/80 dark:border-slate-800 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" onclick="App.switchTab('beranda')" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-lg shadow-md group-hover:scale-105 transition">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">KOMPUTASI<span class="text-blue-600 dark:text-blue-400">.ID</span></span>
+            <span class="text-[9px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">Kelas X</span>
+          </div>
+          <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium">4 Pilar Berpikir Komputasional</p>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="hidden md:flex items-center gap-1">
+        <button data-tab="beranda" class="nav-link px-3 py-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 transition">
+          <i class="fa-solid fa-house mr-1 opacity-75"></i> Beranda
+        </button>
+        <button data-tab="pilar" class="nav-link px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">
+          <i class="fa-solid fa-shapes mr-1 opacity-75"></i> Eksplorasi 4 Pilar
+        </button>
+        <button data-tab="lab" class="nav-link px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">
+          <i class="fa-solid fa-flask-vial mr-1 opacity-75"></i> Lab Simulasi 4 Pilar
+        </button>
+        <button data-tab="kasus" class="nav-link px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">
+          <i class="fa-solid fa-book-open-reader mr-1 opacity-75"></i> Studi Kasus Literasi
+        </button>
+        <button data-tab="glosarium" class="nav-link px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">
+          <i class="fa-solid fa-spell-check mr-1 opacity-75"></i> Glosarium
+        </button>
+      </nav>
+
+      <!-- Right Utility Controls -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+
+        <!-- Audio FX Toggle -->
+        <button id="audio-fx-toggle" title="Efek Suara Interaktif" class="w-9 h-9 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition border border-slate-200 dark:border-slate-700">
+          <i class="fa-solid fa-volume-high text-blue-500"></i>
+        </button>
+
+        <!-- Dark/Light Mode Toggle -->
+        <button id="theme-toggle-btn" onclick="App.toggleTheme()" title="Ganti Tema Gelap/Terang" class="w-9 h-9 rounded-xl flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition border border-slate-200 dark:border-slate-700">
+          <i class="fa-solid fa-moon text-slate-700 text-sm"></i>
+        </button>
+
+        <!-- Mobile Menu Hamburger -->
+        <button id="mobile-menu-btn" class="md:hidden w-9 h-9 rounded-xl flex items-center justify-center text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+          <i class="fa-solid fa-bars text-sm"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 py-3 space-y-1">
+      <button data-tab="beranda" class="nav-link w-full text-left px-3 py-2 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+        <i class="fa-solid fa-house mr-2 text-blue-500"></i> Beranda
+      </button>
+      <button data-tab="pilar" class="nav-link w-full text-left px-3 py-2 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+        <i class="fa-solid fa-shapes mr-2 text-emerald-500"></i> Eksplorasi 4 Pilar BK
+      </button>
+      <button data-tab="lab" class="nav-link w-full text-left px-3 py-2 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+        <i class="fa-solid fa-flask-vial mr-2 text-purple-500"></i> Lab Simulasi 4 Pilar
+      </button>
+      <button data-tab="kasus" class="nav-link w-full text-left px-3 py-2 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+        <i class="fa-solid fa-book-open-reader mr-2 text-amber-500"></i> Studi Kasus Literasi
+      </button>
+      <button data-tab="glosarium" class="nav-link w-full text-left px-3 py-2 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+        <i class="fa-solid fa-spell-check mr-2 text-indigo-500"></i> Glosarium Istilah
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================== -->
+  <!-- 2. MAIN CONTENT AREA                            -->
+  <!-- ============================================== -->
+  <main id="content-area" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 text-base-content">
+
+    <!-- -------------------------------------------- -->
+    <!-- TAB 1: BERANDA                              -->
+    <!-- -------------------------------------------- -->
+    <section id="tab-beranda" class="tab-section space-y-10 animate-fadeIn">
+      
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-indigo-600 to-slate-900 text-white p-8 sm:p-12 shadow-2xl">
+        <div class="absolute -right-16 -bottom-16 w-80 h-80 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
+        <div class="absolute right-1/3 -top-16 w-60 h-60 rounded-full bg-blue-400/20 blur-xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-3xl space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15 border border-white/20 backdrop-blur-sm text-xs font-medium">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Informatika SMA/SMK Kelas X • Kurikulum Merdeka (Fase E)</span>
+          </div>
+
+          <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+            Kuasai 4 Fondasi Logika dengan <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-cyan-200 to-white">Berpikir Komputasional</span>
+          </h1>
+
+          <p class="text-base text-blue-100/90 leading-relaxed font-normal max-w-2xl">
+            Wahana pembelajaran interaktif yang berfokus mendalam pada <strong>4 Pilar Berpikir Komputasional</strong> (Dekomposisi, Pengenalan Pola, Abstraksi, dan Perancangan Algoritma) guna meningkatkan kemampuan literasi membaca, menganalisis data, dan memecahkan persoalan nyata tanpa tekanan ujian atau penilaian skor.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <button onclick="App.switchTab('pilar')" class="px-5 py-3 rounded-2xl bg-white hover:bg-blue-50 text-blue-900 font-bold text-xs sm:text-sm shadow-lg transition transform hover:-translate-y-0.5 flex items-center gap-2">
+              <i class="fa-solid fa-shapes"></i> Eksplorasi 4 Pilar
+            </button>
+            <button onclick="App.switchTab('lab')" class="px-5 py-3 rounded-2xl bg-white/15 hover:bg-white/25 border border-white/20 text-white font-bold text-xs sm:text-sm backdrop-blur-sm transition flex items-center gap-2">
+              <i class="fa-solid fa-flask-vial"></i> Buka Lab Simulasi
+            </button>
+            <button onclick="App.switchTab('kasus')" class="px-5 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
+              <i class="fa-solid fa-book-open"></i> Studi Kasus Literasi
+            </button>
+          </div>
+
+          <!-- Feature Highlights Badges -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/15 text-xs">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-unlock-keyhole text-emerald-300"></i>
+              <span>Bebas Akses (No Login)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-award text-cyan-300"></i>
+              <span>Bebas Skor / Tanpa Nilai</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-headphones text-amber-300"></i>
+              <span>Audio Text-to-Speech</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-brain text-purple-300"></i>
+              <span>Fokus 4 Fondasi Inti</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Pilar Preview Grid -->
+      <div class="space-y-4">
+        <div class="flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <span class="text-[10px] uppercase font-bold tracking-widest text-blue-600 dark:text-blue-400">Fondasi Utama</span>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">
+              4 Pilar Berpikir Komputasional
+            </h2>
+          </div>
+          <button onclick="App.switchTab('pilar')" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
+            Pelajari Seluruh Pilar Secara Rinci <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <div id="home-pillars-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Rendered dynamically by App.renderHomePillars() -->
+        </div>
+      </div>
+
+      <!-- Literasi & Berpikir Komputasional Section -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 shadow-md space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 text-xs font-bold">
+          <i class="fa-solid fa-book-bookmark"></i> Literasi Komputasi Kelas X
+        </div>
+        <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-slate-100">
+          Mengapa 4 Pilar Berpikir Komputasional Sangat Efektif Meningkatkan Literasi Siswa?
+        </h3>
+        <p class="text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+          Di abad ke-21, literasi bukan hanya sekadar mengenali huruf atau membaca kalimat, melainkan kemampuan <strong>memahami struktur teks yang kompleks, menyaring data krusial, dan merumuskan kesimpulan logis</strong>:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          
+          <div class="p-4 rounded-2xl bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/50 space-y-1.5 text-base">
+            <strong class="font-bold text-blue-700 dark:text-blue-300 block"><i class="fa-solid fa-puzzle-piece mr-1"></i> Dekomposisi</strong>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-base">Melatih siswa membedah paragraf narasi masalah yang panjang menjadi butir-butir gagasan utama.</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/50 space-y-1.5 text-base">
+            <strong class="font-bold text-emerald-700 dark:text-emerald-300 block"><i class="fa-solid fa-shapes mr-1"></i> Pengenalan Pola</strong>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-base">Melatih kepekaan membaca tren data berulang, statistik, dan korelasi sebab-akibat antarinformasi.</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 space-y-1.5 text-base">
+            <strong class="font-bold text-amber-700 dark:text-amber-300 block"><i class="fa-solid fa-filter mr-1"></i> Abstraksi</strong>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-base">Melatih kemampuan menyaring informasi: membedakan antara fakta inti dengan kalimat distraksi/opini.</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/50 space-y-1.5 text-base">
+            <strong class="font-bold text-purple-700 dark:text-purple-300 block"><i class="fa-solid fa-route mr-1"></i> Perancangan Algoritma</strong>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-base">Melatih siswa menyusun prosedur tindakan yang logis, berurutan, dan terstruktur untuk memecahkan persoalan.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- -------------------------------------------- -->
+    <!-- TAB 2: EKSPLORASI 4 PILAR                   -->
+    <!-- -------------------------------------------- -->
+    <section id="tab-pilar" class="tab-section hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+        <span class="text-[10px] uppercase font-bold tracking-widest text-blue-600 dark:text-blue-400">Modul Belajar Literatif</span>
+        <h2 class="text-2xl font-black text-slate-900 dark:text-slate-100">
+          Eksplorasi Mendalam 4 Pilar Berpikir Komputasional
+        </h2>
+        <p class="text-base text-slate-500 dark:text-slate-400 mt-1">
+          Pelajari konsep, alasan pentingnya, karakteristik, contoh penerapan nyata, serta panduan literasi membaca teks.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Sidebar Navigation List -->
+        <div class="lg:col-span-4 space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 px-1">Pilih Pilar Komputasi:</h4>
+          <div id="pillar-nav-list" class="space-y-2">
+            <!-- Rendered dynamically by App.renderPillarsDetail() -->
+          </div>
+        </div>
+
+        <!-- Main Detail Content View -->
+        <div class="lg:col-span-8">
+          <div id="pillar-detail-view">
+            <!-- Rendered dynamically by App.renderPillarsDetail() -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- -------------------------------------------- -->
+    <!-- TAB 3: LABORATORIUM SIMULASI 4 PILAR       -->
+    <!-- -------------------------------------------- -->
+    <section id="tab-lab" class="tab-section hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+        <span class="text-[10px] uppercase font-bold tracking-widest text-rose-600 dark:text-rose-400"><i class="fa-brands fa-youtube mr-1"></i> Laboratorium Video & Simulasi</span>
+        <h2 class="text-2xl font-black text-slate-900 dark:text-slate-100">
+          Laboratorium Video & Simulasi Interaktif 4 Pilar
+        </h2>
+        <p class="text-base text-slate-500 dark:text-slate-400 mt-1">
+          Tonton video edukasi pilihan YouTube yang dikaitkan langsung dengan kegiatan sehari-hari murid (kamar tidur, jam antrean kantin, peta ojek online, dan misi pagi ke sekolah), lalu eksplorasi simulasi praktiknya.
+        </p>
+      </div>
+
+      <!-- YouTube Video Spotlight Announcement -->
+      <div class="p-4 rounded-2xl bg-gradient-to-r from-rose-500/10 via-purple-500/10 to-indigo-500/10 border border-rose-200 dark:border-rose-900/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center shrink-0 shadow-md">
+            <i class="fa-brands fa-youtube text-lg"></i>
+          </div>
+          <div>
+            <strong class="text-slate-900 dark:text-slate-100 font-bold block text-base">Laboratorium Berbasis Video Interaktif & Simulasi Konseptual</strong>
+            <span class="text-base text-slate-600 dark:text-slate-400">Setiap pilar dilengkapi video edukasi animasi pilihan YouTube, panduan menit literasi aktif, dan simulasi interaktif tanpa nilai.</span>
+          </div>
+        </div>
+        <div class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold text-rose-600 dark:text-rose-400 shadow-sm">
+          <i class="fa-solid fa-circle-play text-rose-500 animate-pulse"></i>
+          <span>4 Video Pembelajaran Terkurasi</span>
+        </div>
+      </div>
+
+      <!-- Lab Sub-Navigation Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200 dark:border-slate-800">
+        <button id="lab-btn-dekomposisi" onclick="App.switchLabTab('dekomposisi')" class="px-4 py-2 text-xs font-bold rounded-xl transition flex items-center gap-1.5 bg-blue-600 text-white shadow-md">
+          <i class="fa-solid fa-puzzle-piece"></i> 1. Lab Dekomposisi
+        </button>
+        <button id="lab-btn-pola" onclick="App.switchLabTab('pola')" class="px-4 py-2 text-xs font-medium rounded-xl transition flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
+          <i class="fa-solid fa-shapes"></i> 2. Lab Pengenalan Pola
+        </button>
+        <button id="lab-btn-abstraksi" onclick="App.switchLabTab('abstraksi')" class="px-4 py-2 text-xs font-medium rounded-xl transition flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
+          <i class="fa-solid fa-filter"></i> 3. Lab Abstraksi
+        </button>
+        <button id="lab-btn-algoritma" onclick="App.switchLabTab('algoritma')" class="px-4 py-2 text-xs font-medium rounded-xl transition flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
+          <i class="fa-solid fa-route"></i> 4. Lab Algoritma
+        </button>
+      </div>
+
+      <!-- Lab Panels Container -->
+      <div class="space-y-6">
+        <div id="lab-panel-dekomposisi">
+          <div id="decomposition-lab-container"></div>
+        </div>
+
+        <div id="lab-panel-pola" class="hidden">
+          <div id="pattern-lab-container"></div>
+        </div>
+
+        <div id="lab-panel-abstraksi" class="hidden">
+          <div id="abstraction-lab-container"></div>
+        </div>
+
+        <div id="lab-panel-algoritma" class="hidden">
+          <div id="algorithm-lab-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- -------------------------------------------- -->
+    <!-- TAB 4: STUDI KASUS LITERASI NARATIF        -->
+    <!-- -------------------------------------------- -->
+    <section id="tab-kasus" class="tab-section hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+        <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-600 dark:text-emerald-400">Literasi & Penalaran Kritis</span>
+        <h2 class="text-2xl font-black text-slate-900 dark:text-slate-100">
+          Kajian Kasus Nyata: Bedah Solusi 4 Pilar Berpikir Komputasional
+        </h2>
+        <p class="text-base text-slate-500 dark:text-slate-400 mt-1">
+          Bacalah teks narasi masalah nyata di bawah ini, kerjakan latihan analisis tiap pilar pada buku tulis atau kertas kerja mandiri, lalu cocokkan alur pemikiranmu dengan rekomendasi model solusi komputasional.
+        </p>
+      </div>
+
+      <!-- Navigation buttons for cases -->
+      <div id="cases-tab-buttons" class="flex items-center gap-2 overflow-x-auto pb-1">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Main Case View -->
+      <div id="case-view-container">
+        <!-- Rendered dynamically by App.renderLiteracyCases() -->
+      </div>
+    </section>
+
+    <!-- -------------------------------------------- -->
+    <!-- TAB 5: GLOSARIUM PINTAR                      -->
+    <!-- -------------------------------------------- -->
+    <section id="tab-glosarium" class="tab-section hidden space-y-6 animate-fadeIn">
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-4 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <span class="text-[10px] uppercase font-bold tracking-widest text-blue-600 dark:text-blue-400">Kamus Istilah</span>
+          <h2 class="text-2xl font-black text-slate-900 dark:text-slate-100">
+            Glosarium Kosakata Literasi 4 Pilar Komputasional
+          </h2>
+          <p class="text-base text-slate-500 dark:text-slate-400 mt-1">
+            Kumpulan terminologi penting untuk memperkaya literasi sains-komputasi siswa.
+          </p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative w-full sm:w-72">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input type="text" id="glossary-search-input" placeholder="Cari istilah atau definisi..." class="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+        </div>
+      </div>
+
+      <div id="glossary-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <!-- Rendered dynamically by App.renderGlossary() -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================== -->
+  <!-- 3. FOOTER                                       -->
+  <!-- ============================================== -->
+  <footer class="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400 text-center md:text-left">
+        <div>
+          <strong class="text-slate-700 dark:text-slate-200 font-bold block text-sm">KOMPUTASI.ID</strong>
+          <span>Media Interaktif Literasi Berpikir Komputasional Kelas X • PPG Prajabatan</span>
+        </div>
+        <div class="flex items-center gap-4 text-xs">
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-500"></i> Eksplorasi Mandiri</span>
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-500"></i> Ramah Ponsel</span>
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-500"></i> Penguatan Literasi Siswa</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Scripts (Cache-Busted v2.5) -->
+  <script src="js/data.js?v=2.5"></script>
+  <script src="js/simulators.js?v=2.5"></script>
+  <script src="js/app.js?v=2.5"></script>
+</body>
+</html>
